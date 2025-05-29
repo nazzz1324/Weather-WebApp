@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <div class="search-container">
+        <form method="get" action="/weather">
+            <input type="text" name="city" placeholder="Поиск города" required>
+            <button type="submit">Найти</button>
+        </form>
+    </div>
 
+    {% if city %}
+    <div class="weather-container">
+        <div class="left-panel">
+            <div class="now">
+                <h2>{{ city }}</h2>
+                {% if weather %}
+                    <p class="now-temp">{{ weather[0].max }}°</p>
+                    <p class="feels">Ощущается как {{ weather[0].min }}°</p>
+                    <p class="desc">Осадки: {{ weather[0].precipitation }} мм</p>
+                {% else %}
+                    <p>Нет данных о погоде</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="forecast-title">Next 7 Days</div>
+            <div class="forecast">
+                {% for day in weather %}
+                    <div class="day-card">
+                        <p class="day-name">{{ day.date }}</p>
+                        <img src="/static/icons/{{ day.icon }}" alt="icon" class="weather-icon">
+                        <p class="temp">{{ day.max }}°</p>
+                        <p class="precip">💧 {{ day.precipitation }} мм</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </body>
 </html>
