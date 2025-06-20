@@ -1,5 +1,6 @@
 fastapi
-uvicorn[standard]
-jinja2
-httpx
+uvicorn
 sqlalchemy
+jinja2
+aiohttp
+python-multipart
